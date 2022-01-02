@@ -1,0 +1,121 @@
+
+<!DOCTYPE html> 
+<html> 
+    
+<head>
+    <title>Pension Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+
+        body {
+            padding: 20px;
+        }
+
+        #loanCalc input {
+            padding: 10px;
+            display: block;
+        }
+
+        .clearfix {
+            clear: both !important;
+        }
+
+        .paymentCalc {
+            background-color: #f7f7f7;
+            border: 1px solid #d3d3d3;
+            padding: 35px 35px;
+            overflow: auto;
+        }
+
+        .calcBtn {
+            display: inline-block;
+            background: #c62233;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 3px;
+        }
+
+        #paymentResults {
+            display: none;
+            background: #fff;
+            padding: 30px 10px 10px 10px;
+            border: 1px solid lightgrey;
+            margin-top: 88px;
+        }
+
+    </style>
+</head> 
+    
+<body>
+
+    <div class="col-md-12 paymentCalc">
+
+        <div class="col-md-6">
+
+            <form id="loanCalc" action="" method="get" class="">
+                <div class="col-md-12">
+                    <h2>Pension Calculator </h2>
+                    <div class="form-group">
+                        <label for="Per Month Salary">Monthly Salary</label>
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="salary" placeholder="Per Month Salary">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="downPayment">Contribution %</label>
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="percentage" placeholder="%">
+                    </div>
+                </div>
+                <div>
+                    <a href="#" class="calcBtn" onclick="calculatePayments()" id="calculate" value="Calulate">Calculate</a>
+
+                    <a href="#" class="calcBtn" onclick="document.getElementById('salary').value = ''; document.getElementById('percentage').value = ''">Clear</a>
+
+</div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <div id="paymentResults">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculatePayments() {
+            var salary = document.getElementById('salary').value,
+                percentage = document.getElementById('percentage').value,
+                amount = parseFloat(salary),
+                down = parseFloat(percentage),
+                permonth = (amount * down) / 100
+            Peryear = (permonth * 51) / 100
+            year1 = (permonth * 76) / 100
+            year2 = (permonth * 84) / 100
+            year3 = (permonth * 112) / 100
+            fin = (permonth * 12 * 10 * 223) / 100;
+            if (!amount) {
+                alert('Please add a salary amount');
+                return ;
+            }
+            if (!down) {
+                alert('Please add a contribution percentage');
+                return;
+            }
+
+
+            var paymentResults = document.getElementById('paymentResults');
+            paymentResults.style.display = 'block';
+            paymentResults.innerHTML = '';
+            var results = document.createElement('div');
+            results.innerHTML = '<table border="1" ><tr><td> Per Month Contribution:</td><td>' + permonth + ' </td><td></td><tr><td> Pension After 10 Years(Age 30 - 40) :</td><td> ' + Peryear + '</td><td> 51% Monthly salary Contribution</td> <tr><td>Pension After 10 Years(Age 40 - 50) : </td><td>' + year1 + '</td><td> 76% Monthly salary Contribution</td><tr><td> Pension After 10 Years(Age 50 - 60) : </td><td>' + year2 + '</td><td> 84% Monthly salary Contribution</td> <tr><td>Pension After 10 Years Above Age 60  : </td><td>' + year3 + '</td><td> 112% Monthly salary Contribution</td> <tr><td>Return One Time Settlement  : </td><td>' + fin + '</td><td> 223% Monthly salary Contribution *10 </td> ';
+            paymentResults.append(results);
+     
+        }
+    </script>
+</body>
+</html>
